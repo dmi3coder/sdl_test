@@ -9,12 +9,17 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+char *text = "";
+char *composition;
+Sint32 cursor;
+Sint32 selection_len;
+
 int main(int argc, const char * argv[]) {
     SDL_Window* window;
     
     SDL_Init(SDL_INIT_VIDEO);
     
-    window = SDL_CreateWindow("Encrypto", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("SDL testik", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_OPENGL);
     if(window == NULL){
         return -1;
     }
@@ -38,7 +43,31 @@ int main(int argc, const char * argv[]) {
     
     SDL_RenderPresent(renderer);
     
-    SDL_Delay(8000);
+    SDL_bool done = SDL_FALSE;
+    
+    SDL_StartTextInput();
+    
+    while (!done) {
+        SDL_Event event;
+        if(SDL_PollEvent(&event)){
+            switch (event.type) {
+                case SDL_QUIT:
+                    done = SDL_TRUE;
+                    break;
+                case SDL_TEXTINPUT:
+                    printf("%s",event.text.text);
+                    break;
+                case SDL_TEXTEDITING:
+                    composition = event.text.text;
+                    cursor = event.edit.start;
+                    selection_len = event.edit.length;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
     
     SDL_DestroyWindow(window);
     
