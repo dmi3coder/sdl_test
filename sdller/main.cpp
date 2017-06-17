@@ -9,7 +9,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-char *text = "";
+
 char *composition;
 Sint32 cursor;
 Sint32 selection_len;
@@ -29,17 +29,9 @@ int main(int argc, const char * argv[]) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     
     SDL_RenderClear(renderer);
-    
-    SDL_Rect rect;
-    
-    rect.x = 50;
-    rect.y = 50;
-    rect.w = 50;
-    rect.h = 50;
-    
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     
-    SDL_RenderFillRect(renderer, &rect);
     
     SDL_RenderPresent(renderer);
     
@@ -54,8 +46,20 @@ int main(int argc, const char * argv[]) {
                 case SDL_QUIT:
                     done = SDL_TRUE;
                     break;
-                case SDL_TEXTINPUT:
-                    printf("%s",event.text.text);
+                case SDL_MOUSEBUTTONDOWN:
+                    SDL_Rect rect;
+                    rect.x = event.button.x;
+                    rect.y = event.button.y;
+                    rect.w = 50;
+                    rect.h = 50;
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                    
+                    SDL_RenderClear(renderer);
+                    
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+                    SDL_RenderFillRect(renderer, &rect);
+                    SDL_RenderPresent(renderer);
+                    
                     break;
                 case SDL_TEXTEDITING:
                     composition = event.text.text;
