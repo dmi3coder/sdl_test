@@ -7,22 +7,18 @@
 //
 
 #include "looper.hpp"
-#include <chrono>
+#include <SDL2/SDL.h>
 
-using namespace std::chrono;
-int64_t currentTime = -1;
+Uint64 nowTime = 0;
+Uint64 lastTime = 0;
 
-int64_t getCurrentTime(){
-    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-}
-
-int64_t DeltaLooper::getDeltaTime() {
-    if(currentTime == -1){
-        currentTime = getCurrentTime();
+double DeltaLooper::getDeltaTime() {
+    nowTime =  SDL_GetPerformanceCounter();
+    if(lastTime == 0){
+        lastTime = nowTime;
         return 0;
     }
-    int64_t oldTime = currentTime;
-    currentTime = getCurrentTime();
-    int64_t delta = currentTime - oldTime;
-    return delta;
+    
+    Uint64 deltaTime = nowTime - lastTime;
+    return (double)deltaTime;
 }

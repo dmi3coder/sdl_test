@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 class DeltaLooper {
-    public: __int64_t getDeltaTime();
+    public: double getDeltaTime();
 };
 
 #endif /* looper_hpp */
