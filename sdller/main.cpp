@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
 #include "looper.hpp"
+#include "View.hpp"
 
 
 char *composition;
@@ -53,6 +54,7 @@ int main(int argc, const char * argv[]) {
     
     memset(pixels, 255, 640 * 480 * sizeof(Uint32));
     bool leftMouseButtonDown = false;
+    View view = View(renderer);
     while (true)
     {
             SDL_UpdateTexture(texture, NULL, pixels, 640 * sizeof(Uint32));
@@ -85,9 +87,9 @@ int main(int argc, const char * argv[]) {
                         }
                         break;
                 }
-    
-        SDL_RenderClear(renderer);
+                        SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, NULL);
+                view.draw();
         SDL_RenderPresent(renderer);
             }
     }
